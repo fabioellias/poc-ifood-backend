@@ -1,0 +1,85 @@
+<!doctype html>
+<html ng-app="myApp">
+
+<head>
+    <title>Listagem de usuários</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+    <div ng-controller="myCtrl">
+        <h2>
+            Listagem de inscritos
+        </h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Nome Informado</td>
+                    <td>e-mail</td>
+                    <td>Telefone</td>
+                    <td>tipo Doc</td>
+                    <td>Número RG</td>
+                    <td>Nr CPF</td>
+                    <td>Data exp</td>
+                    <td>Nome</td>
+                    <td>Data Nasc</td>
+                    <td>Imagem doc</td>
+                    <td>Socre Face match</td>
+                    <td>Imagem Self</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in users">
+                    <td>{{user.NomeInformado}}</td>
+                    <td>{{user.Email}}</td>
+                    <td>{{user.Telefone}}</td>
+                    <td>{{user.TipoDoc}}</td>
+                    <td>{{user.NumeroRG}}</td>
+                    <td>{{user.NumeroCPF}}</td>
+                    <td>{{user.DataExp}}</td>
+                    <td>{{user.Nome}}</td>
+                    <td>{{user.DataNasc}}</td>
+                    <td>{{user.ImagemDoc}}</td>
+                    <td>{{user.ScoreFaceMatch}}</td>
+                    <td>{{user.ImagemSelf}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        var myApp = angular.module('myApp', []);
+         myApp.controller('myCtrl', function ($scope,$http) {
+
+            $http.get("http://localhost:5000/list").then(function (success) {
+
+                console.log(success.data);
+
+                if (success.data.length > 0) {
+                    $scope.users = success.data;
+                }
+            });
+
+         });
+            
+        //     $http.get("http://localhost:5000/list").then(function (success) {
+        //         if (success.data.length > 0) {
+        //             $scope.users = success.data;
+        //         }
+        //     });
+
+        // });
+
+        // function MyCtrl($scope, $http) {
+        //     //This method will call your server, with the GET method and the url /show
+        //     $http.get("http://localhost:5000/list").then(function (success) {
+        //         if (success.data.length > 0) {
+        //             $scope.users = success.data;
+        //         }
+        //     });
+        // }
+    </script>
+
+</body>
+
+</html>
