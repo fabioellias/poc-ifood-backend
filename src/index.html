@@ -53,31 +53,14 @@
 
             $http.get("http://localhost:5000/list").then(function (success) {
 
-                console.log(success.data);
+                console.log(success.data.recordset);
 
-                if (success.data.length > 0) {
-                    $scope.users = success.data;
+                if (success.data.recordset.length > 0) {
+                    $scope.users = success.data.recordset;
                 }
             });
 
          });
-            
-        //     $http.get("http://localhost:5000/list").then(function (success) {
-        //         if (success.data.length > 0) {
-        //             $scope.users = success.data;
-        //         }
-        //     });
-
-        // });
-
-        // function MyCtrl($scope, $http) {
-        //     //This method will call your server, with the GET method and the url /show
-        //     $http.get("http://localhost:5000/list").then(function (success) {
-        //         if (success.data.length > 0) {
-        //             $scope.users = success.data;
-        //         }
-        //     });
-        // }
     </script>
 
 </body>
