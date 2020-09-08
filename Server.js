@@ -1,8 +1,18 @@
 var express = require('express');
 var app = express();
+const bodyParser = require('body-parser');
 
-app.put('/create',function(req, res){
 
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.post('/create',function(req, res){
+
+    // console.log(req.body);
+    // console.log(req.body.NomeInformado);
+    // res.send(null);
+    // return;
     
     var sql = require("mssql");
 
@@ -15,7 +25,7 @@ app.put('/create',function(req, res){
     };
 
     // // connect to your database
-sql.connect(config, function (err) {
+    sql.connect(config, function (err) {
     
     if (err) 
         console.log(err);
@@ -23,8 +33,7 @@ sql.connect(config, function (err) {
     //     // create Request object
     var request = new sql.Request();
 
-/*
-    insert into usuarios (
+    var command = `INSERT INTO usuarios(
         NomeInformado,
         Email,
         Telefone,
@@ -37,35 +46,33 @@ sql.connect(config, function (err) {
         ImagemDoc,
         ScoreFaceMatch,
         ImagemSelf
-        )
-        values(
-        'Lula',
-        'lula@lula.com',
-        '21976897865',
-        'RG',
-        '12345',
-        null,
-        '01/01/2000',
-        'Luis Inacio da Silva',
-        '01/08/1940',
-        null,
-        '40%',
-        null
-        )
-*/
-
+        ) 
+        VALUES(
+            '${req.body.NomeInformado}',
+            '${req.body.Email}',
+            '${req.body.Telefone}',
+            '${req.body.TipoDoc}',
+            '${req.body.NumeroRG}',
+            '${req.body.NumeroCPF}',
+            '${req.body.DataExp}',
+            '${req.body.Nome}',
+            '${req.body.DataNasc}',
+            '${req.body.ImagemDoc}',
+            '${req.body.ScoreFaceMatch}',
+            '${req.body.ImagemSelf}'         
+        )`;
 
     //     // query to the database and get the records
-    request.query('insert ....', function (err, recordset) {
-    
-    if (err)
-     console.log(err)
+        request.query(command, function (err, recordset) {
+        
+        if (err)
+        console.log(err);
 
-    // send records as a response
-    res.send(recordset);
-
-    
-
+        // send records as a response
+        res.send(recordset);
+            
+        });
+    });
 });
 
 app.get('/list', function(req, res){
